@@ -1,38 +1,23 @@
 package ir.maktab.service;
 
-import ir.maktab.model.dao.ContactDao;
 import ir.maktab.model.entity.Contact;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-@Transactional
-public class ContactService {
-    @Autowired
-    private ContactDao contactDao;
+public interface ContactService {
+    Contact save(Contact contact);
 
-    public void registerUser(Contact contact) {
-        Optional<Contact> found = contactDao.findById(contact.getId());
-        if (!found.isPresent())
-            contactDao.save(contact);
-    }
+    void deleteById(Integer id);
 
-    public void deleteUser(Contact contact) {
-        Optional<Contact> found = contactDao.findById(contact.getId());
-        if (found.isPresent())
-            contactDao.delete(contact);
-    }
+    void deleteAll(Iterable<Contact> contacts);
 
-    public void deleteUserById(Integer id) {
-        contactDao.deleteById(id);
-    }
+    Contact findById(Integer id);
 
-    public List<Contact> findAll() {
-        return contactDao.findAll();
-    }
+    List<Contact> findByName(String name);
 
+    List<Contact> findAll();
+
+    List<Contact> findAllByUserId(Integer id);
+
+    Contact updateContact(Contact contact, Integer id);
 }
