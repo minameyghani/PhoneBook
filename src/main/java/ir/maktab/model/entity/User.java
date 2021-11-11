@@ -9,8 +9,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Contact> contactId = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Contact> contacts = new ArrayList<>();
     private String name;
     private String phone;
     private String email;
@@ -20,15 +20,16 @@ public class User {
     private int loginStatus;
     @Column(columnDefinition = "integer default 2")
     private int role;
+    @Column(unique = true)
     private String loginName;
     private String password;
 
-    public List<Contact> getContactId() {
-        return contactId;
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
-    public void setContactId(List<Contact> contactId) {
-        this.contactId = contactId;
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public int getId() {
@@ -101,21 +102,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", contactId=" + contactId +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", address=" + address +
-                ", loginStatus=" + loginStatus +
-                ", role=" + role +
-                ", loginName='" + loginName + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }

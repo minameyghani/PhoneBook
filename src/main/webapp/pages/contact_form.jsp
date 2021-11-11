@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Mina_Hosseyni
+  Date: 11/9/2021
+  Time: 5:55 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib uri="http://www.springframework.org/tags" prefix="s" %>
@@ -6,7 +13,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>User Login</title>
+    <title>Contact Form</title>
     <s:url value="/static/css/style.css" var="url_css"/>
     <link href="${url_css}" rel="stylesheet" type="text/css" media="all"/>
 
@@ -27,32 +34,46 @@
     </tr>
     <tr>
         <td height="400px" valign="top" align="center">
-            <h3>Login Form</h3>
+            <h3>Contact Form</h3>
             <c:if test="${err != null}">
                 <p class="error">${err}</p>
             </c:if>
-            <c:if test="${param.act eq 'lo'}">
-                <p class="success">Logout successfully:) Thanks for using app</p>
-            </c:if>
-            <c:if test="${param.act eq 'reg'}">
-                <p class="success">User registered successfully.Please login</p>
-            </c:if>
-            <s:url value="login" var="url_login"/>
-            <f:form action="${url_login}" modelAttribute="command">
+            <s:url value="/user/save_contact" var="url_csave"/>
+            <f:form action="${url_csave}" modelAttribute="command">
                 <table border="1">
                     <tr>
-                        <td>username</td>
-                        <td><f:input path="loginName"/></td>
+                        <td>Name</td>
+                        <td><f:input path="name"/></td>
                     </tr>
                     <tr>
-                        <td>password</td>
-                        <td><f:password path="password"/></td>
+                        <td>Phone</td>
+                        <td><f:input path="phone"/></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><f:input path="email"/></td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td><f:input path="address.city"/></td>
+                    </tr>
+                    <tr>
+                        <td>Province</td>
+                        <td><f:input path="address.province"/></td>
+                    </tr>
+                    <tr>
+                        <td>Street</td>
+                        <td><f:input path="address.street"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Remark</td>
+                        <td><f:input path="remark"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button class="button-24">Login</button>
+                            <button class="button-24">save</button>
                             <br/>
-                            <a href="/reg_form">New User Registration</a>
                         </td>
                     </tr>
 
@@ -64,3 +85,4 @@
 </table>
 </body>
 </html>
+

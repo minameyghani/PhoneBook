@@ -3,8 +3,10 @@ package ir.maktab.service;
 import ir.maktab.exception.ResourceNotFoundException;
 import ir.maktab.exception.UserBlockedException;
 import ir.maktab.model.dao.UserDao;
+import ir.maktab.model.entity.Contact;
 import ir.maktab.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,15 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) {
-        Optional<User> found = userDao.findById(user.getId());
+    public void register(User user) {
+        Optional<User> found = userDao.findByLoginName(user.getLoginName());
         if (!found.isPresent()) {
-            return userDao.save(user);
-        } else {
-            System.out.println("user exists");
-            return found.get();
+            userDao.save(user);
+        }else{
+            throw new DuplicateKeyException("Username already registered.Please select another one.");
         }
-
     }
 
     @Override
@@ -85,22 +85,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByLoginNameAndPassword(String l, String p) {
+    public User login(String l, String p) throws UserBlockedException {
         Optional<User> found = userDao.findByLoginNameAndPassword(l, p);
-        try {
-            if (found.isPresent()) {
-                User user = found.get();
-                if (userDao.findByLoginStatus(user.getLoginStatus()) == LOGIN_STATUS_ACTIVE) {
-                    return user;
-                } else {
-                    throw new UserBlockedException("user is blocked");
-                }
+        if (found.isPresent()) {
+            User user = found.get();
+            if (user.getLoginStatus() == 1) {
+                return user;
+            } else {
+                throw new UserBlockedException("user is blocked");
             }
-
-        } catch (UserBlockedException userBlockedException) {
-            userBlockedException.getMessage();
         }
-        System.out.println("User not found");
         return null;
     }
 
@@ -135,7 +129,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUserList() {
-        Optional<User> adminFound = userDao.findByRole(ROLE_ADMIN);
+        Optional<User> adminFound = userDao.findByRole(1);
         if (adminFound.isPresent()) {
             return findAll();
         }
@@ -148,9 +142,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public Page<User> findMaxMatch(String name, String phone, String email, int offset, int limit) {
-        Pageable page = PageRequest.of(offset, limit);
-        return userDao.findAll(UserDao.findMaxMatch(name, phone, email), page);
+    @Override
+    public List<User> findMaxMatch(String name, String phone, String email) {
+        return userDao.findAll(UserDao.findMaxMatch(name, phone, email));
     }
 
 }

@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>User Login</title>
+    <title>User Registration</title>
     <s:url value="/static/css/style.css" var="url_css"/>
     <link href="${url_css}" rel="stylesheet" type="text/css" media="all"/>
 
@@ -27,32 +27,51 @@
     </tr>
     <tr>
         <td height="400px" valign="top" align="center">
-            <h3>Login Form</h3>
+            <h3>User Registration</h3>
             <c:if test="${err != null}">
                 <p class="error">${err}</p>
             </c:if>
-            <c:if test="${param.act eq 'lo'}">
-                <p class="success">Logout successfully:) Thanks for using app</p>
-            </c:if>
-            <c:if test="${param.act eq 'reg'}">
-                <p class="success">User registered successfully.Please login</p>
-            </c:if>
-            <s:url value="login" var="url_login"/>
-            <f:form action="${url_login}" modelAttribute="command">
+            <s:url value="register" var="url_reg"/>
+            <f:form action="${url_reg}" modelAttribute="command">
                 <table border="1">
                     <tr>
-                        <td>username</td>
-                        <td><f:input path="loginName"/></td>
+                        <td>Name</td>
+                        <td><f:input path="user.name"/></td>
                     </tr>
                     <tr>
-                        <td>password</td>
-                        <td><f:password path="password"/></td>
+                        <td>Phone</td>
+                        <td><f:input path="user.phone"/></td>
                     </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><f:input path="user.email"/></td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td><f:input path="user.address.city"/></td>
+                    </tr>
+                    <tr>
+                        <td>Province</td>
+                        <td><f:input path="user.address.province"/></td>
+                    </tr>
+                    <tr>
+                        <td>Street</td>
+                        <td><f:input path="user.address.street"/></td>
+                    </tr>
+                    <tr>
+                        <td>Username</td>
+                        <td><f:input path="user.loginName"/></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><f:password path="user.password"/></td>
+                    </tr>
+
                     <tr>
                         <td colspan="2" align="center">
-                            <button class="button-24">Login</button>
+                            <button class="button-24">submit</button>
                             <br/>
-                            <a href="/reg_form">New User Registration</a>
+                            <a href="/index">login</a>
                         </td>
                     </tr>
 

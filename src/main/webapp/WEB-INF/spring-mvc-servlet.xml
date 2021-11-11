@@ -10,4 +10,6 @@
         <property name="prefix" value="/pages/" />
         <property name="suffix" value=".jsp" />
     </bean>
+
+    <mvc:resources mapping="/static/**" location="/static/" />
 </beans>
