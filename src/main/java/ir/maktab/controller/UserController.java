@@ -8,10 +8,9 @@ import ir.maktab.service.UserService;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -66,6 +65,13 @@ public class UserController {
         return "dashboard_admin";
     }
 
+    @RequestMapping("/admin/users")
+    public String showAUsers(Model model) {
+        model.addAttribute("userList", userService.findAllUsers(2));
+        return "users";
+
+    }
+
     @RequestMapping(value = "/logout")
     public String logout(HttpSession session) {
         session.invalidate();
@@ -91,6 +97,30 @@ public class UserController {
             m.addAttribute("err", e.getMessage());
             return "reg_form";
         }
+
+    }
+
+    @RequestMapping("/admin/change_status")
+    @ResponseBody
+    public String changeLoginStatus(@RequestParam Integer userId,
+                                    @RequestParam Integer loginStatus) {
+        try {
+            userService.changeLoginStatus(loginStatus, userId);
+            return "SUCCESS: Status Changed";
+        } catch (Exception e) {
+            return "ERROR: Unable to change status";
+        }
+
+    }
+
+    @RequestMapping("/check_available")
+    @ResponseBody
+    public String checkAvailUsername(@RequestParam String username) {
+
+            if(userService.isUserNameExist(username)){
+                return "ERROR: This username already taken";
+            }
+            return "Yes! You can take this!";
 
     }
 

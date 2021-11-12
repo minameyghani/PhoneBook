@@ -9,7 +9,8 @@
 </c:if>
 <c:if test="${sessionScope.userId =! null && sessionScope.role == 1}">
     <%-- admin : admin menu --%>
-    <a href="#">Home</a> | <a href="#">User list</a> | <a href="${url_logout}">Logout</a>
+    <s:url value="/admin/users" var="url_users"/>
+    <a href="#">Home</a> | <a href="${url_users}">User list</a> | <a href="${url_logout}">Logout</a>
 </c:if>
 <c:if test="${sessionScope.userId =! null && sessionScope.role == 2}">
     <s:url value="/user/dashboard" var="url_uhome"/>

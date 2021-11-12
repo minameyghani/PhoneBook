@@ -28,8 +28,10 @@ public interface UserDao extends JpaRepository<User, Integer>, JpaSpecificationE
 
     List<User> findByName(String name);
 
+    List<User> findAllByRole(Integer role);
+
     @Modifying
-    @Query("update User u set u.loginStatus =:newStatus where u.id =:id")
+    @Query("update User set loginStatus =:newStatus where id =:id")
     void updateStatus(@Param("newStatus") Integer newStatus,@Param("id") Integer userId);
 
     static Specification<User> findMaxMatch(String name, String phone, String email) {

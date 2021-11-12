@@ -9,7 +9,22 @@
     <title>User Registration</title>
     <s:url value="/static/css/style.css" var="url_css"/>
     <link href="${url_css}" rel="stylesheet" type="text/css" media="all"/>
+    <s:url var="url_jqlib" value="/static/js/jquery-3.6.0.min.js"/>
+    <script src="${url_jqlib}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#id_checkName").click(function () {
 
+                $.ajax({
+                    url:'check_available',
+                    data:{username:$("#id_username").val()} ,
+                    success:function (data) {
+                        $("#id_result_div").html(data);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <s:url var="url_bag" value="/static/images/g4.jpg"/>
 
@@ -60,7 +75,12 @@
                     </tr>
                     <tr>
                         <td>Username</td>
-                        <td><f:input path="user.loginName"/></td>
+                        <td><f:input id="id_username" path="user.loginName"/>
+                            <button type="button" class="button-24" id="id_checkName">Check Availability</button>
+                            <div id="id_result_div" class="error">
+
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Password</td>

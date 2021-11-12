@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ContactController {
@@ -68,6 +70,13 @@ public class ContactController {
     @RequestMapping("/user/del_contact")
     public String deleteContact(@RequestParam("cid") Integer cid, Model model) {
         contactService.deleteById(cid);
+        return "redirect:contactList?act=del";
+    }
+
+    @RequestMapping("/user/bulk_cDelete")
+    public String deleteBulkContact(@RequestParam("cid") Integer[] contactIds, Model model) {
+
+        contactService.deleteAll(contactIds);
         return "redirect:contactList?act=del";
     }
 

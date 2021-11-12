@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> found = userDao.findByLoginName(user.getLoginName());
         if (!found.isPresent()) {
             userDao.save(user);
-        }else{
+        } else {
             throw new DuplicateKeyException("Username already registered.Please select another one.");
         }
     }
@@ -128,12 +128,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserList() {
-        Optional<User> adminFound = userDao.findByRole(1);
-        if (adminFound.isPresent()) {
-            return findAll();
-        }
-        return null;
+    public List<User> findAllUsers(Integer i) {
+        return userDao.findAllByRole(2);
     }
 
     @Override
@@ -141,6 +137,13 @@ public class UserServiceImpl implements UserService {
         userDao.updateStatus(newStatus, id);
     }
 
+    @Override
+    public boolean isUserNameExist(String username) {
+        Optional<User> found = userDao.findByLoginName(username);
+        if (found.isPresent())
+            return true;
+        return false;
+    }
 
     @Override
     public List<User> findMaxMatch(String name, String phone, String email) {

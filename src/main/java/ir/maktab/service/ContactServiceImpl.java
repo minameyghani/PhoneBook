@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +39,10 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public void deleteAll(Iterable<Contact> contacts) {
-        for (Contact c : contacts)
-            contactDao.delete(c);
+    public void deleteAll(Integer[] contactIds) {
+        for (Integer i : contactIds) {
+            contactDao.deleteById(i);
+        }
     }
 
     @Override
@@ -83,9 +85,9 @@ public class ContactServiceImpl implements ContactService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Contact> findMaxMatch(String name, String phone, String email,Integer id,int offset, int limit) {
-        Pageable of= PageRequest.of(offset,limit);
-        return contactDao.findAll(ContactDao.findMaxMatch(name, phone, email,id),of);
+    public Page<Contact> findMaxMatch(String name, String phone, String email, Integer id, int offset, int limit) {
+        Pageable of = PageRequest.of(offset, limit);
+        return contactDao.findAll(ContactDao.findMaxMatch(name, phone, email, id), of);
     }
 
 }

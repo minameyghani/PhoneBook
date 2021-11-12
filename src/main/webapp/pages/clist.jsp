@@ -48,48 +48,53 @@
             </form>
             <br/><br/>
             <div id="list">
-                <table border="1">
-                    <tr>
-                        <th>SR</th>
-                        <th>CID</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>City</th>
-                        <th>Province</th>
-                        <th>Street</th>
-                        <th>Remark</th>
-                        <th>Action</th>
-                    </tr>
-                    <c:if test="${empty contacts}">
+                <form action="<s:url value="/user/bulk_cDelete"/> ">
+                    <button class="button-24">Delete Selected Records</button>
+                    <br/><br/>
+                    <table border="1">
                         <tr>
-                            <td colspan="8" class="error" align="center">
-                                No records present
-                            </td>
+                            <th>SELECT</th>
+                            <th>CID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>City</th>
+                            <th>Province</th>
+                            <th>Street</th>
+                            <th>Remark</th>
+                            <th>Action</th>
                         </tr>
-                    </c:if>
-                    <tr>
-                        <c:forEach var="c" items="${contacts}" varStatus="st">
-                        <td>${st.count}</td>
-                        <td>${c.id}</td>
-                        <td>${c.name}</td>
-                        <td>${c.phone}</td>
-                        <td>${c.email}</td>
-                        <td>${c.address.city}</td>
-                        <td>${c.address.province}</td>
-                        <td>${c.address.street}</td>
-                        <td>${c.remark}</td>
-                        <s:url var="url_del" value="/user/del_contact">
-                            <s:param name="cid" value="${c.id}"/>
-                        </s:url>
-                        <s:url value="/user/edit_contact" var="url_edit">
-                            <s:param name="cid" value="${c.id}"/>
-                        </s:url>
-                        <td><a href="${url_edit}">EDIT</a>|<a href="${url_del}">DELETE</a></td>
-                    </tr>
-                    </c:forEach>
-                </table>
+                        <c:if test="${empty contacts}">
+                            <tr>
+                                <td colspan="8" class="error" align="center">
+                                    No records present
+                                </td>
+                            </tr>
+                        </c:if>
+                        <tr>
+                            <c:forEach var="c" items="${contacts}" varStatus="st">
+                            <td align="center"><input type="checkbox" name="cid" value="${c.id}"/></td>
+                            <td>${c.id}</td>
+                            <td>${c.name}</td>
+                            <td>${c.phone}</td>
+                            <td>${c.email}</td>
+                            <td>${c.address.city}</td>
+                            <td>${c.address.province}</td>
+                            <td>${c.address.street}</td>
+                            <td>${c.remark}</td>
+                            <s:url var="url_del" value="/user/del_contact">
+                                <s:param name="cid" value="${c.id}"/>
+                            </s:url>
+                            <s:url value="/user/edit_contact" var="url_edit">
+                                <s:param name="cid" value="${c.id}"/>
+                            </s:url>
+                            <td><a href="${url_edit}">EDIT</a>|<a href="${url_del}">DELETE</a></td>
+                        </tr>
+                        </c:forEach>
+                    </table>
+                </form>
             </div>
+
         </td>
     </tr>
 </table>

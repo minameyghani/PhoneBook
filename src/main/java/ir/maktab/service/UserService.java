@@ -30,7 +30,9 @@ public interface UserService {
 
     User updateUser(User user, Integer id);
 
-    List<User> getUserList();
+    List<User> findAllUsers(Integer i);
+
+    boolean isUserNameExist(String username);
 
     List<User> findMaxMatch(String name, String phone, String email);
 }

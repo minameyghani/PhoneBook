@@ -11,7 +11,7 @@ public interface ContactService {
 
     void deleteById(Integer id);
 
-    void deleteAll(Iterable<Contact> contacts);
+    void deleteAll(Integer[] contactIds);
 
     Contact findById(Integer id);
 
